@@ -1,0 +1,15 @@
+{
+  "short_name": "Scrabble",
+  "name": "Scrabble",
+  "icons": [
+    {
+      "src": ".png",
+      "type": "image/png",
+      "sizes": ""
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
