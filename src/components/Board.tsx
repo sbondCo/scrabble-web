@@ -293,23 +293,51 @@ export default function Board() {
 }
 
 function Piece(props: { piece: BoardPiece }) {
-  let classes = "w-16 h-full border-solid border-2 border-black";
+  const pieceStyle = {
+    width: "6.666666%"
+  };
+
+  let classes = ["w-16", "h-full", "border-solid", "border-2", "border-black"];
+  let text;
 
   switch (props.piece) {
     case BoardPiece.TrippleWordScore:
-      return <div className={`${classes} bg-yellow-400`}>tripple ws</div>;
+      classes.push("bg-yellow-400");
+      text = "tws";
+      break;
+
     case BoardPiece.DoubleWordScore:
-      return <div className={`${classes} bg-red-400`}>double ws</div>;
+      classes.push("bg-red-400");
+      text = "dws";
+      break;
+
     case BoardPiece.TrippleLetterScore:
-      return <div className={`${classes} bg-green-400`}>tripple ls</div>;
+      classes.push("bg-green-400");
+      text = "tls";
+      break;
+
     case BoardPiece.DoubleLetterScore:
-      return <div className={`${classes} bg-blue-400`}>double ls</div>;
+      classes.push("bg-blue-400");
+      text = "dls";
+      break;
+
     case BoardPiece.Middle:
-      return <div className={`${classes} bg-red-500`}>middle</div>;
+      classes.push("bg-red-500");
+      text = "mid";
+      break;
+
     case BoardPiece.Normal:
     default:
-      return <div className={`${classes} bg-white`}></div>;
+      classes.push("bg-white");
+      text = "nor";
+      break;
   }
+
+  return (
+    <div className={`${classes.join(" ")} bg-white`} style={pieceStyle}>
+      {text}
+    </div>
+  );
 }
 
 function resizeBoard(event: UIEvent) {
@@ -317,14 +345,17 @@ function resizeBoard(event: UIEvent) {
   const boardRect = board.getBoundingClientRect();
   const resizeStep = 5;
 
-  console.log(board);
+  // console.log(board);
 
   console.log("----------");
-  console.log("board", boardRect);
-  console.log("w", window.innerWidth, window.innerHeight);
+  // console.log("board", boardRect);
+  console.log(window.innerWidth, window.innerHeight);
+  console.log(boardRect.width, boardRect.height);
 
-  if (boardRect.width >= window.innerWidth) {
-    board.style.width = `${window.innerWidth - resizeStep}px`;
-    board.style.height = `${window.innerWidth - resizeStep}px`;
-  }
+  // if (boardRect.width >= window.innerWidth) {
+  // if (boardRect.width > 750) {
+  //   board.style.width = `${window.innerWidth - resizeStep}px`;
+  //   board.style.height = `${window.innerWidth - resizeStep}px`;
+  // }
+  // }
 }
