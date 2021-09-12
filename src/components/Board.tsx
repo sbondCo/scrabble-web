@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-enum BoardPiece {
+enum BoardTile {
   Normal = 0,
   TrippleWordScore = 1,
   DoubleWordScore = 2,
@@ -10,7 +10,7 @@ enum BoardPiece {
 }
 
 export default function Board() {
-  const bp = BoardPiece;
+  const bp = BoardTile;
   let board = [
     [
       bp.TrippleWordScore,
@@ -270,20 +270,28 @@ export default function Board() {
   ];
 
   useEffect(() => {
+    // Resize board on load to ensure board it is the correct dimensions
+    resizeBoard();
+
     window.addEventListener("resize", resizeBoard);
   });
+
+  const boardStyle = {
+    // height: "750px",
+    width: "750px"
+  };
 
   const rowStyle = {
     height: "6.666666%"
   };
 
   return (
-    <div className="flex justify-center w-screen">
-      <div id="scrabble-board" className="flex flex-col border-solid border-2 border-black">
+    <div className="flex justify-center w-screen select-none">
+      <div id="scrabble-board" className="flex flex-col border-solid border-2 border-black" style={boardStyle}>
         {board.map((row, i) => (
           <div key={i} className="flex flex-row" style={rowStyle}>
-            {row.map((piece, i) => (
-              <Piece key={i} piece={piece} />
+            {row.map((tile, i) => (
+              <Tile key={i} tile={tile} />
             ))}
           </div>
         ))}
@@ -292,41 +300,41 @@ export default function Board() {
   );
 }
 
-function Piece(props: { piece: BoardPiece }) {
-  const pieceStyle = {
-    width: "6.666666%"
+function Tile(props: { tile: BoardTile }) {
+  const tileStyle = {
+    width: "6.7%"
   };
 
   let classes = ["w-16", "h-full", "border-solid", "border-2", "border-black"];
   let text;
 
-  switch (props.piece) {
-    case BoardPiece.TrippleWordScore:
+  switch (props.tile) {
+    case BoardTile.TrippleWordScore:
       classes.push("bg-yellow-400");
       text = "tws";
       break;
 
-    case BoardPiece.DoubleWordScore:
+    case BoardTile.DoubleWordScore:
       classes.push("bg-red-400");
       text = "dws";
       break;
 
-    case BoardPiece.TrippleLetterScore:
+    case BoardTile.TrippleLetterScore:
       classes.push("bg-green-400");
       text = "tls";
       break;
 
-    case BoardPiece.DoubleLetterScore:
+    case BoardTile.DoubleLetterScore:
       classes.push("bg-blue-400");
       text = "dls";
       break;
 
-    case BoardPiece.Middle:
+    case BoardTile.Middle:
       classes.push("bg-red-500");
       text = "mid";
       break;
 
-    case BoardPiece.Normal:
+    case BoardTile.Normal:
     default:
       classes.push("bg-white");
       text = "nor";
@@ -334,28 +342,20 @@ function Piece(props: { piece: BoardPiece }) {
   }
 
   return (
-    <div className={`${classes.join(" ")} bg-white`} style={pieceStyle}>
+    <div className={`${classes.join(" ")} bg-white`} style={tileStyle}>
       {text}
     </div>
   );
 }
 
-function resizeBoard(event: UIEvent) {
+function resizeBoard() {
   const board = document.getElementById("scrabble-board")!;
   const boardRect = board.getBoundingClientRect();
-  const resizeStep = 5;
-
-  // console.log(board);
 
   console.log("----------");
   // console.log("board", boardRect);
   console.log(window.innerWidth, window.innerHeight);
   console.log(boardRect.width, boardRect.height);
 
-  // if (boardRect.width >= window.innerWidth) {
-  // if (boardRect.width > 750) {
-  //   board.style.width = `${window.innerWidth - resizeStep}px`;
-  //   board.style.height = `${window.innerWidth - resizeStep}px`;
-  // }
-  // }
+  board.style.height = `${boardRect.width}px`;
 }
