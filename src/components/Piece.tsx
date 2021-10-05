@@ -11,7 +11,6 @@ export default function Piece() {
   };
 
   const mouseUp = (event: React.MouseEvent) => {
-    console.log(event);
     const piece = pieceRef.current;
 
     let collideX = Math.trunc((event.pageX - top_coords.top_x) / top_coords.height);
@@ -29,9 +28,10 @@ export default function Piece() {
   };
 
   const mouseMove = (event: MouseEvent) => {
-    const piece = pieceRef.current;
-
+    // Don't do anything unless being dragged
     if (isDragging) {
+      const piece = pieceRef.current;
+
       if (piece) {
         let pieceRect = piece.getBoundingClientRect();
 
