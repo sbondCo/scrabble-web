@@ -1,4 +1,5 @@
 import React from "react";
+import { top_coords } from "./Board";
 
 let isDragging = false;
 
@@ -9,14 +10,26 @@ export default function Piece() {
     isDragging = true;
   };
 
-  const mouseUp = () => {
+  const mouseUp = (event: React.MouseEvent) => {
+    console.log(event);
+    const piece = pieceRef.current;
+
+    let collideX = Math.trunc((event.pageX - top_coords.top_x) / top_coords.height);
+    let collideY = Math.trunc((event.pageY - top_coords.top_y) / top_coords.width);
+
+    const board = document.getElementById("scrabble-board")!;
+    const boardTile = board.childNodes[collideY].childNodes[collideX] as HTMLElement;
+    const tileRect = boardTile.getBoundingClientRect();
+    const pieceRect = piece!.getBoundingClientRect();
+
+    piece!.style.left = `${tileRect.x + (tileRect.width - pieceRect.width) / 2}px`;
+    piece!.style.top = `${tileRect.y + (tileRect.height - pieceRect.height) / 2}px`;
+
     isDragging = false;
   };
 
   const mouseMove = (event: MouseEvent) => {
-    // console.log(event);
-
-    let piece = pieceRef.current;
+    const piece = pieceRef.current;
 
     if (isDragging) {
       if (piece) {
@@ -35,8 +48,7 @@ export default function Piece() {
       ref={pieceRef}
       onMouseDown={mouseDown}
       onMouseUp={mouseUp}
-      // onMouseMove={mouseMove}
-      className="fixed w-16 h-16 border-solid border-2 border-black bg-yellow-900 select-none"
+      className="fixed w-10 h-10 border-solid border-2 border-black bg-yellow-900 select-none"
     >
       A
     </div>

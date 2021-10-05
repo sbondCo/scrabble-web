@@ -1,4 +1,12 @@
+import React from "react";
 import { useEffect } from "react";
+
+export class top_coords {
+  public static top_x = 0;
+  public static top_y = 0;
+  public static width = 0;
+  public static height = 0;
+}
 
 enum BoardTile {
   Normal = 0,
@@ -11,7 +19,7 @@ enum BoardTile {
 
 export default function Board() {
   const bp = BoardTile;
-  let board = [
+  const board = [
     [
       bp.TrippleWordScore,
       bp.Normal,
@@ -270,14 +278,13 @@ export default function Board() {
   ];
 
   useEffect(() => {
-    // Resize board on load to ensure board it is the correct dimensions
+    // Resize board on load to ensure it is the correct dimensions
     resizeBoard();
 
     window.addEventListener("resize", resizeBoard);
   });
 
   const boardStyle = {
-    // height: "750px",
     width: "750px"
   };
 
@@ -352,10 +359,13 @@ function resizeBoard() {
   const board = document.getElementById("scrabble-board")!;
   const boardRect = board.getBoundingClientRect();
 
-  console.log("----------");
-  // console.log("board", boardRect);
-  console.log(window.innerWidth, window.innerHeight);
-  console.log(boardRect.width, boardRect.height);
-
   board.style.height = `${boardRect.width}px`;
+
+  const el = board.childNodes[0].childNodes[0] as HTMLElement;
+  const elRect = el.getBoundingClientRect();
+
+  top_coords.top_x = elRect.x;
+  top_coords.top_y = elRect.y;
+  top_coords.width = elRect.width;
+  top_coords.height = elRect.height;
 }
