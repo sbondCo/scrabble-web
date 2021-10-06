@@ -1,9 +1,9 @@
 import Board from "./components/Board";
 import Piece from "./components/Piece";
-import GameManager from "./libs/GameManager";
+import Game from "./libs/Game";
 
 export default function App() {
-  GameManager.init();
+  Game.init();
 
   return (
     <div className="App">
