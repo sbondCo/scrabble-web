@@ -17,12 +17,15 @@ export default function Piece() {
     let collideY = Math.trunc((event.pageY - top_coords.top_y) / top_coords.width);
 
     const board = document.getElementById("scrabble-board")!;
-    const boardTile = board.childNodes[collideY].childNodes[collideX] as HTMLElement;
-    const tileRect = boardTile.getBoundingClientRect();
-    const pieceRect = piece!.getBoundingClientRect();
+    const boardTile = board.childNodes[collideY]?.childNodes[collideX] as HTMLElement;
 
-    piece!.style.left = `${tileRect.x + (tileRect.width - pieceRect.width) / 2}px`;
-    piece!.style.top = `${tileRect.y + (tileRect.height - pieceRect.height) / 2}px`;
+    if (boardTile !== undefined) {
+      const tileRect = boardTile.getBoundingClientRect();
+      const pieceRect = piece!.getBoundingClientRect();
+
+      piece!.style.left = `${tileRect.x + (tileRect.width - pieceRect.width) / 2}px`;
+      piece!.style.top = `${tileRect.y + (tileRect.height - pieceRect.height) / 2}px`;
+    }
 
     isDragging = false;
   };
